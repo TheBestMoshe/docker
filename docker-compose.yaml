@@ -22,9 +22,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      args:
-        - BASE_URL=${BASE_URL}
-        - NEXT_PUBLIC_APP_URL=${NEXT_PUBLIC_APP_URL}
     image: calendso/docker
     restart: always
     networks:

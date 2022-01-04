@@ -8,15 +8,14 @@ RUN yarn install --frozen-lockfile
 FROM node:14 as builder
 
 WORKDIR /app
-ARG BASE_URL
-ENV BASE_URL $BASE_URL
-ARG NEXT_PUBLIC_APP_URL
-ENV NEXT_PUBLIC_APP_URL $NEXT_PUBLIC_APP_URL
 
 COPY calendso .
 
 COPY --from=deps /app/node_modules ./node_modules
-RUN yarn build && yarn install --production --ignore-scripts --prefer-offline
+RUN NEXT_PUBLIC_APP_URL=APP_NEXT_PUBLIC_APP_URL_VAR \
+    NEXT_PUBLIC_LICENSE_CONSENT=APP_NEXT_PUBLIC_LICENSE_CONSENT_VAR \
+    yarn build && \
+    yarn install --production --ignore-scripts --prefer-offline
 
 FROM node:14 as runner
 WORKDIR /app
